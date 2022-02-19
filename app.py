@@ -2,7 +2,7 @@ import streamlit as st
 
 # Custom imports 
 from multipage import MultiPage
-from pages import home, audio_upload, record
+from pages import home, audio_upload, record, evaluate
 
 
 st.set_page_config(
@@ -37,7 +37,6 @@ width: 100%;
 background-color: black;
 color: white;
 text-align: center;
-}
 </style>
 <div class="footer">
 <p>Developed by Mikea Dimech</p>
@@ -56,14 +55,17 @@ if "current_page" not in st.session_state:
 #set current page
 if st.session_state.first_run == True:
     app.current_page("Home", home.app)
-elif st.session_state.current_page == "Upload Audio":
-    app.current_page("Upload Audio", audio_upload.app)
-elif st.session_state.current_page == "Record":
-    app.current_page("Record", record.app)
+elif st.session_state.current_page == "☁️ Upload Audio":
+    app.current_page("☁️ Upload Audio", audio_upload.app)
+elif st.session_state.current_page == "🎙️ Record":
+    app.current_page("🎙️ Record", record.app)
+elif st.session_state.current_page == "📈 Evaluate":
+    app.current_page("📈 Evaluate", evaluate.app)
 
 # Add all application pages
-app.add_page("Upload Audio", audio_upload.app)
-app.add_page("Record", record.app)
+app.add_page("☁️ Upload Audio", audio_upload.app)
+app.add_page("🎙️ Record", record.app)
+app.add_page("📈 Evaluate", evaluate.app)
 
 # The main app
 app.run()
