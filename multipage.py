@@ -34,7 +34,6 @@ class MultiPage:
             })
 
     def run(self):
-        # Drodown to select the page to run  
         
         no_buttons = len(self.pages)
 
