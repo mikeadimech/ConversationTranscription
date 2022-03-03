@@ -8,3 +8,4 @@ https://github.com/pyannote/pyannote-audio/archive/develop.zip
 PythonTurtle
 librosa
 pandas
+openai
