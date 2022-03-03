@@ -1,4 +1,4 @@
-from turtle import color
+#from turtle import color
 import streamlit as st
 from pages import utils
 import os
