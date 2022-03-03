@@ -6,7 +6,6 @@ transformers
 pyannote.audio
 PythonTurtle
 librosa
-SoundFile
 pandas
 torch
-tk
+SoundFile
