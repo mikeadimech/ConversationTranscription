@@ -1,7 +1,6 @@
 import time
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 #from datasets import load_dataset
-import soundfile as sf
 import torch
 import streamlit as st
 from pyannote.audio import Pipeline, Inference
