@@ -8,4 +8,4 @@ PythonTurtle
 librosa
 pandas
 torch
-SoundFile
+SoundFile==0.10.3
