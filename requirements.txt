@@ -4,7 +4,7 @@ pydub==0.25.1
 streamlit==1.2.0
 streamlit_webrtc==0.31.1
 transformers
-pyannote.audio
+https://github.com/pyannote/pyannote-audio/archive/develop.zip
 PythonTurtle
 librosa
 pandas
