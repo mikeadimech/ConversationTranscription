@@ -8,4 +8,4 @@ https://github.com/pyannote/pyannote-audio/archive/develop.zip
 PythonTurtle
 librosa
 pandas
-pysndfile
+libsndfile1-dev
