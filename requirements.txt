@@ -1,4 +1,12 @@
+torch
 numpy==1.21.4
 pydub==0.25.1
 streamlit==1.2.0
 streamlit_webrtc==0.31.1
+transformers
+https://github.com/pyannote/pyannote-audio/archive/develop.zip
+PythonTurtle
+librosa
+pandas
+openai
+speechbrain
