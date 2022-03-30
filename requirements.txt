@@ -4,9 +4,10 @@ pydub==0.25.1
 streamlit==1.2.0
 streamlit_webrtc==0.31.1
 transformers
-https://github.com/pyannote/pyannote-audio/archive/develop.zip
+git+https://github.com/pyannote/pyannote-audio.git@develop#egg=pyannote-audio
 PythonTurtle
 librosa
 pandas
 openai
 speechbrain
+neuspell
