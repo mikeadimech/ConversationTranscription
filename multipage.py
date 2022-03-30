@@ -3,12 +3,6 @@ This file is the framework for generating multiple Streamlit applications
 through an object oriented framework. 
 """
 
-# Import necessary libraries 
-<<<<<<< HEAD
-#rom turtle import title
-=======
-#from turtle import title
->>>>>>> f1b94cb82d5ee65ce433eaf955767c1488ee910d
 import streamlit as st
 
 # Define the multipage class to manage the multiple apps in our program 
