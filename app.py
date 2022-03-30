@@ -1,9 +1,8 @@
 import streamlit as st
-
+import sys
 # Custom imports 
 from multipage import MultiPage
-from pages import home, audio_upload, record, evaluate
-
+from pages import home, audio_upload, sample_audio, record, evaluate, utils
 
 st.set_page_config(
     page_title="Automatic Conversation Transcription",
@@ -34,6 +33,7 @@ st.markdown(footer,unsafe_allow_html=True)
 
 if "first_run" not in st.session_state:
     st.session_state["first_run"] = True
+    sys.stdout.write("\nApplication started\n")
 else:
     st.session_state.first_run = False
 
@@ -45,6 +45,8 @@ if st.session_state.first_run == True:
     app.current_page("Home", home.app)
 elif st.session_state.current_page == "☁️ Upload Audio":
     app.current_page("☁️ Upload Audio", audio_upload.app)
+elif st.session_state.current_page == "🎹 Sample Audio":
+    app.current_page("🎹 Sample Audio", sample_audio.app)
 elif st.session_state.current_page == "🎙️ Record":
     app.current_page("🎙️ Record", record.app)
 elif st.session_state.current_page == "📈 Evaluate":
@@ -52,6 +54,7 @@ elif st.session_state.current_page == "📈 Evaluate":
 
 # Add all application pages
 app.add_page("☁️ Upload Audio", audio_upload.app)
+app.add_page("🎹 Sample Audio", sample_audio.app)
 app.add_page("🎙️ Record", record.app)
 app.add_page("📈 Evaluate", evaluate.app)
 
