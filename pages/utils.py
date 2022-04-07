@@ -550,32 +550,33 @@ def optimise_transcript(transcript_df):
     transcript_df = transcript_df[transcript_df["Transcript"] != ""]
     
     raw_transcripts = transcript_df["Transcript"].tolist()
-    checker = neuspell.BertChecker()
-    checker.from_pretrained()
-    corrected_transcripts = [checker.correct(str(sent)) for sent in raw_transcripts]
-    sys.stdout.write("Spell check complete")
+    ##checker = neuspell.BertChecker()
+    #checker.from_pretrained()
+    #corrected_transcripts = [checker.correct(str(sent)) for sent in raw_transcripts]
+    #sys.stdout.write("Spell check complete")
 
-    """
+    
     MAX_LEN = 100
     long_transcripts = {}
-    for i, elem in enumerate(corrected_transcripts):
+    for i, elem in enumerate(raw_transcripts):
         if len(elem.split())>MAX_LEN:
             sys.stdout.write("Long text detected\n")
             long_transcripts[i] = long_punct(elem)
             elem = "pass"
     
     output_punct = punct_query({
-        "inputs": corrected_transcripts,
+        "inputs": raw_transcripts,
         "options": {"wait_for_model": True}
     })
     sys.stdout.write("All text punctuated")
     enhanced_transcripts = []
     for elem in output_punct:
+        st.write(elem)
         enhanced_transcripts.append(elem["generated_text"])
     for k,v in long_transcripts.items():
         enhanced_transcripts[k] = v
-    """
-    transcript_df["Transcript"] = corrected_transcripts
+    
+    transcript_df["Transcript"] = enhanced_transcripts
     return transcript_df
 
 

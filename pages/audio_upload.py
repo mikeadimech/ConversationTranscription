@@ -74,11 +74,11 @@ def app():
         if transcript_df is not None:
             script_md = transcript_md(transcript_df)
             transcript_text.markdown(script_md)
-            with st.spinner("Optimising transcript..."):
-                optimised_transcript_df = utils.optimise_transcript(transcript_df)
-            script_md = transcript_md(optimised_transcript_df)
-            transcript_text.empty()
-            transcript_text.markdown(script_md)
+            #with st.spinner("Optimising transcript..."):
+                #optimised_transcript_df = utils.optimise_transcript(transcript_df)
+            #script_md = transcript_md(optimised_transcript_df)
+            #transcript_text.empty()
+            #transcript_text.markdown(script_md)
             csv = utils.convert_df(transcript_df)
             st.download_button(
                 label="💾 Export CSV",
