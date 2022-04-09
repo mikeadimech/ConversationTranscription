@@ -233,13 +233,13 @@ def diarization_inference(audio,sr):
 def pyannote_query(filename):
     API_TOKEN = "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"
     headers = {"Authorization": f"Bearer {API_TOKEN}"}
-    API_URL = "https://api-inference.huggingface.co/models/pyannote/speaker-segmentation"
+    API_URL = "https://api-inference.huggingface.co/models/pyannote/speaker-diarization"
     with open(filename, "rb") as f:
         data = f.read()
     response = requests.request("POST", API_URL, headers=headers, data=data)
     temp = json.loads(response.content.decode("utf-8"))
     if "error" in temp:
-        #st.warning(temp["error"])
+        sys.stdout.write("Waiting for pyannote...\n")
         time.sleep(5)
         return pyannote_query(filename)
     return temp
@@ -481,7 +481,7 @@ def w2v2_query(filename):
     response = requests.request("POST", API_URL, headers=headers, data=data)
     temp = json.loads(response.content.decode("utf-8"))
     if "error" in temp:
-        #st.warning(temp["error"])
+        sys.stdout.write("Waiting for Wav2Vec 2.0...\n")
         time.sleep(5)
         return w2v2_query(filename)
     else:
