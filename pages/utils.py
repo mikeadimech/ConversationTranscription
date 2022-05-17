@@ -550,11 +550,6 @@ def optimise_transcript(transcript_df):
     transcript_df = transcript_df[transcript_df["Transcript"] != ""]
     
     raw_transcripts = transcript_df["Transcript"].tolist()
-    ##checker = neuspell.BertChecker()
-    #checker.from_pretrained()
-    #corrected_transcripts = [checker.correct(str(sent)) for sent in raw_transcripts]
-    #sys.stdout.write("Spell check complete")
-
     
     MAX_LEN = 100
     long_transcripts = {}
