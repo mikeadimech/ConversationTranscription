@@ -41,7 +41,7 @@ def summary_text(summary):
 def app():
     
     with st.spinner("Loading sample meeting..."):
-        audio, sr = read_display_audio("audio\sample_meeting.wav")
+        audio, sr = read_display_audio("/app/conversationtranscription/audio/sample_meeting.wav")
     with st.spinner("Detecting speakers..."):
         #dia_df = utils.diarization(st.session_state.audio_path)
         dia_df = utils.diarization_v3(audio,sr)
