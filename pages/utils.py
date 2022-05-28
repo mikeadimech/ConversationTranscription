@@ -10,13 +10,11 @@ import pandas as pd
 import librosa
 import matplotlib.pyplot as plt
 from math import ceil
-import openai
 import torch
 from pyannote.audio.pipelines.speaker_verification import PretrainedSpeakerEmbedding
 from pyannote.audio import Audio
 from pyannote.core import Segment
 from scipy.spatial.distance import cdist
-import neuspell
 import speechbrain as sb
 import json
 from scipy.io.wavfile import write
