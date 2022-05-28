@@ -1,11 +1,10 @@
 import streamlit as st
 import sys
-# Custom imports 
 from multipage import MultiPage
 from pages import home, audio_upload, sample_audio, record, evaluate, utils
 
 st.set_page_config(
-    page_title="Automatic Conversation Transcription",
+    page_title="Automatic Meeting Transcription & Summarisation",
     page_icon="🎙️",
     #layout="wide",
 )
@@ -14,7 +13,7 @@ st.set_page_config(
 app = MultiPage()
 
 #title of the main page
-st.title("🎙️ Automatic Conversation Transcription & Summarisation")
+st.title("🎙️ Automatic Meeting Transcription & Summarisation")
 footer="""<style>
 .footer {
 position: fixed;
@@ -46,7 +45,7 @@ if st.session_state.first_run == True:
 elif st.session_state.current_page == "☁️ Upload Audio":
     app.current_page("☁️ Upload Audio", audio_upload.app)
 elif st.session_state.current_page == "🎹 Sample Audio":
-    app.current_page("🎹 Sample Audio", sample_audio.app)
+    app.current_page("🗪 Sample Meeting", sample_audio.app)
 elif st.session_state.current_page == "🎙️ Record":
     app.current_page("🎙️ Record", record.app)
 elif st.session_state.current_page == "📈 Evaluate":
@@ -54,10 +53,9 @@ elif st.session_state.current_page == "📈 Evaluate":
 
 # Add all application pages
 app.add_page("☁️ Upload Audio", audio_upload.app)
-app.add_page("🎹 Sample Audio", sample_audio.app)
-app.add_page("🎙️ Record", record.app)
-app.add_page("📈 Evaluate", evaluate.app)
+app.add_page("🗪 Sample Meeting", sample_audio.app)
+#app.add_page("🎙️ Record", record.app)
+#app.add_page("📈 Evaluate", evaluate.app)
 
 # The main app
 app.run()
-

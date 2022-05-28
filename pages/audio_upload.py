@@ -1,18 +1,15 @@
-#from turtle import color
 import streamlit as st
 from pages import utils
 import os
 from pydub import AudioSegment
 import librosa
 import librosa.display
-#import soundfile as sf
 import matplotlib.pyplot as plt
-import torchaudio
-import numpy as np
 
 def upload_file():
     
-    uploaded_file = st.file_uploader(label="", type=[".wav", ".mp3", ".flac", ".ogg"])
+    uploaded_file = st.file_uploader(label="", type=[".wav"])
+      
     if uploaded_file is not None:
 
         st.success("Uploaded "+uploaded_file.name)
@@ -74,11 +71,11 @@ def app():
         if transcript_df is not None:
             script_md = transcript_md(transcript_df)
             transcript_text.markdown(script_md)
-            #with st.spinner("Optimising transcript..."):
-                #optimised_transcript_df = utils.optimise_transcript(transcript_df)
-            #script_md = transcript_md(optimised_transcript_df)
-            #transcript_text.empty()
-            #transcript_text.markdown(script_md)
+            with st.spinner("Optimising transcript..."):
+                optimised_transcript_df = utils.optimise_transcript(transcript_df)
+            script_md = transcript_md(optimised_transcript_df)
+            transcript_text.empty()
+            transcript_text.markdown(script_md)
             csv = utils.convert_df(transcript_df)
             st.download_button(
                 label="💾 Export CSV",

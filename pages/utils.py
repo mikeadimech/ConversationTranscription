@@ -188,6 +188,7 @@ def seg_to_dia(audio,seg_output):
 @st.cache(suppress_st_warning=True,show_spinner=False)
 def diarization_v3(audio,sr):
     diarization = diarization_inference(audio,sr)
+    #diarization = dia_inf(audio,sr)
     temp_start = []
     temp_end = []
     temp_speaker = []
@@ -231,15 +232,15 @@ def diarization_inference(audio,sr):
         return dia_inf(audio,sr)
 
 def pyannote_query(filename):
-    API_TOKEN = "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"
+    API_TOKEN = "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"
     headers = {"Authorization": f"Bearer {API_TOKEN}"}
-    API_URL = "https://api-inference.huggingface.co/models/pyannote/speaker-diarization"
+    API_URL = "https://api-inference.huggingface.co/models/pyannote/speaker-segmentation"
     with open(filename, "rb") as f:
         data = f.read()
     response = requests.request("POST", API_URL, headers=headers, data=data)
     temp = json.loads(response.content.decode("utf-8"))
     if "error" in temp:
-        sys.stdout.write("Waiting for pyannote...\n")
+        sys.stdout.write("Waiting for pyannote segmentation 2...\n")
         time.sleep(5)
         return pyannote_query(filename)
     return temp
@@ -473,7 +474,7 @@ def asr_transcript(audio, sr, processor, model):
     return transcription.lower()
 
 def w2v2_query(filename):
-    API_TOKEN = "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"
+    API_TOKEN = "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"
     headers = {"Authorization": f"Bearer {API_TOKEN}"}
     API_URL = "https://api-inference.huggingface.co/models/facebook/wav2vec2-large-960h-lv60-self"
     with open(filename, "rb") as f:
@@ -518,18 +519,22 @@ def asr_inf(audio, sr):
 
 
 def punct_query(payload):
-    API_TOKEN = "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"
+    API_TOKEN = "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"
+
     API_URL = "https://api-inference.huggingface.co/models/SJ-Ray/Re-Punctuate"
-    headers = {"Authorization": "Bearer {API_TOKEN}"}
+    headers = {"Authorization": f"Bearer {API_TOKEN}"}
     response = requests.post(API_URL, headers=headers, json=payload)
-    return response.json()
+    sys.stdout.write("we good")
+    return json.loads(response.content.decode("utf-8"))
+    
+    
 
 def long_punct(text):
     tokenised = text.split()
     n = 50
     chunks = [' '.join(tokenised[i:i+n]) for i in range(0, len(tokenised), n)]
     sys.stdout.write("Text chunked into"+str(len(chunks))+"\n")
-    st.write(chunks)
+    #st.write(chunks)
     if len(chunks[-1].split())<20:
         chunks[-2] = ' '.join(chunks[-2:])
         chunks.pop()
@@ -558,26 +563,50 @@ def optimise_transcript(transcript_df):
             sys.stdout.write("Long text detected\n")
             long_transcripts[i] = long_punct(elem)
             elem = "pass"
+    sys.stdout.write("making punct queries\n")
+    output_punct=[]
+    for elem in raw_transcripts:
+        temp = punct_query({
+            "inputs": elem,
+            "options": {"wait_for_model": True}
+        })
+        if "error" in temp:
+            sys.stdout.write("error\n")
+            output_punct.append(elem)
+        else:
+            sys.stdout.write("text punctuated\n")
+            output_punct.append(temp[0]["generated_text"])
     
-    output_punct = punct_query({
-        "inputs": raw_transcripts,
-        "options": {"wait_for_model": True}
-    })
-    sys.stdout.write("All text punctuated")
     enhanced_transcripts = []
     for elem in output_punct:
-        st.write(elem)
-        enhanced_transcripts.append(elem["generated_text"])
+        enhanced_transcripts.append(elem)
     for k,v in long_transcripts.items():
         enhanced_transcripts[k] = v
     
     transcript_df["Transcript"] = enhanced_transcripts
     return transcript_df
 
+def summ_query(payload):
+    API_TOKEN = "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"
+
+    API_URL = "https://api-inference.huggingface.co/models/mikeadimech/bart-qmsum-meeting-summarization"
+    headers = {"Authorization": f"Bearer {API_TOKEN}"}
+    response = requests.post(API_URL, headers=headers, json=payload)
+    return json.loads(response.content.decode("utf-8"))
+
+def get_transcript(df):
+    script=""
+    for index, row in df.iterrows():
+        script += row["Transcript"] + "\n"
+    return script
 
 @st.cache(suppress_st_warning=True,show_spinner=False)
 def gen_summary(transcript_df):
-    time.sleep(5)
+    text=get_transcript(transcript_df)
+    
+    output_summ = summ_query({
+        "inputs": text,
+        "options": {"wait_for_model": True}
+    })[0]["generated_text"]
 
-
-    return "This is a summary"
+    return output_summ
